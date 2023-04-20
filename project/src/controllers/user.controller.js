@@ -20,24 +20,6 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-/**
- * Controller to get a single user
- * @param  {object} req - request object
- * @param {object} res - response object
- * @param {Function} next
- */
-export const getUser = async (req, res, next) => {
-  try {
-    const data = await UserService.getUser(req.params._id);
-    res.status(HttpStatus.OK).json({
-      code: HttpStatus.OK,
-      data: data,
-      message: 'User fetched successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 /**
  * Controller to create a new user
@@ -45,53 +27,39 @@ export const getUser = async (req, res, next) => {
  * @param {object} res - response object
  * @param {Function} next
  */
-export const newUser = async (req, res, next) => {
-  try {
-    const data = await UserService.newUser(req.body);
-    res.status(HttpStatus.CREATED).json({
-      code: HttpStatus.CREATED,
-      data: data,
-      message: 'User created successfully'
+export const newRegistration = async (req, res, next) => {
+    const data = await UserService.newRegistration(req.body);
+    res.status(data.code).json({
+      code: data.code,
+      data: data.data,
+      message: data.message
     });
-  } catch (error) {
-    next(error);
-  }
-};
+}
+
 
 /**
- * Controller to update a user
+ * Controller to login a  user
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const updateUser = async (req, res, next) => {
-  try {
-    const data = await UserService.updateUser(req.params._id, req.body);
-    res.status(HttpStatus.ACCEPTED).json({
-      code: HttpStatus.ACCEPTED,
-      data: data,
-      message: 'User updated successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
-/**
- * Controller to delete a user
- * @param  {object} req - request object
- * @param {object} res - response object
- * @param {Function} next
- */
-export const deleteUser = async (req, res, next) => {
-  try {
-    await UserService.deleteUser(req.params._id);
+export const userLogin = async (req, res, next) => {
+  console.log(req.body,"----------------");
+    const data = await UserService.userLogin(req.body);
+    if(data){
+    console.log(data,"star------------");
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
-      data: [],
-      message: 'User deleted successfully'
-    });
-  } catch (error) {
-    next(error);
+      data: data,
+      message: 'User Login successfully'
+    })
+  } else {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: 'User Login unsuccessfully'
+    })
   }
-};
+}
+
+
