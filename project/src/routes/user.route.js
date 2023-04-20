@@ -4,7 +4,7 @@ import { newUserValidator } from '../validators/user.validator';
 import { userAuth } from '../middlewares/auth.middleware';
 
 const router = express.Router();
-
+//ok done with chnges
 router.get('', userController.getAllUsers);
 
 router.post('', newUserValidator, userController.newUser);
